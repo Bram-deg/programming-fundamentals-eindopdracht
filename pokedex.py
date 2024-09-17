@@ -1,0 +1,65 @@
+import requests
+
+def get_pokemon_name(pokemon_id):
+    """this function is used to convert the ID to a name when the user inputs an ID"""
+    url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        return data['name']
+    else:
+        return f'Request failed with status code {response.status_code}'
+
+def get_pokedex_description(pokemon):
+    """This function retrieves the Pokédex description for a given Pokémon."""
+    # URL to retrieve the Pokémon species data
+    url = f'https://pokeapi.co/api/v2/pokemon-species/{pokemon}'
+    response = requests.get(url)
+    # Check if the Pokémon exists
+    if response.status_code == 404:
+        return f'{pokemon.capitalize()} is not a Pokémon.'
+    # Check if the request was successful
+    if response.status_code == 200:
+        data = response.json()
+
+        # Filter for the English PokéDex description
+        descriptions = data['flavor_text_entries']
+        for entry in descriptions:
+            if entry['language']['name'] == 'en':
+                # Return the English PokéDex description and print a header
+                print(f"PokéDex description for {pokemon.capitalize()}")
+                print("*" * 50)
+                return entry['flavor_text']
+    else:
+        # Return an error message if the request failed
+        return f'Request failed with status code {response.status_code}'
+
+def pokedex():
+    """This function runs the Pokédex program. in a loop,
+    the user can input a Pokémon name or ID to retrieve the Pokédex description."""
+    print("Welcome to the Pokédex!")
+    print("Type 'stop' to return to the main menu.")
+    print("*" * 50)
+
+    # Main loop to search for the Pokémon
+    while True:
+        try:
+            pokemon_input = str(input("Enter the name or id of the pokemon you are looking for: ").lower())
+            # Check if the user wants to stop the program
+            if pokemon_input == "stop":
+                print("Thank you for using the Pokédex!")
+                break
+            # Check if the user input is a number (ID) or a string (name)
+            if pokemon_input.isdigit():
+                pokemon_name = get_pokemon_name(pokemon_input)
+            else:
+                pokemon_name = pokemon_input
+
+            # Retrieve the Pokédex description for the requested Pokémon
+            description = get_pokedex_description(pokemon_name)
+            print(description)
+            print("*" * 50)
+
+        # Handle exceptions
+        except Exception as e:
+            print(f"An error has occurred: {e}")
