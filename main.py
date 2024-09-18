@@ -1,6 +1,7 @@
 from time import sleep
 
 from pokedex import pokedex
+from who_is_that_pokemon import who_is_that_pokemon
 
 def main():
     print("Welcome to the Pokémon App!")
@@ -16,7 +17,7 @@ def main():
         if choice == "1":
             pokedex()
         elif choice == "2":
-            print("Who's that Pokemon?")
+            who_is_that_pokemon()
         elif choice == "3":
             print("Type Trainer")
         elif choice == "4":

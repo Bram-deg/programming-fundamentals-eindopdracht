@@ -1,3 +1,5 @@
+from time import sleep
+
 import requests
 
 def get_pokemon_name(pokemon_id):
@@ -48,6 +50,8 @@ def pokedex():
             # Check if the user wants to stop the program
             if pokemon_input == "stop":
                 print("Thank you for using the Pokédex!")
+                print("Returning to the main menu...")
+                sleep(1)
                 break
             # Check if the user input is a number (ID) or a string (name)
             if pokemon_input.isdigit():
