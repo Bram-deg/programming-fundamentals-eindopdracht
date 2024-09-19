@@ -66,9 +66,9 @@ def who_is_that_pokemon():
     print (f"Your final score is {score}.")
     # ask if the user wants to play again
     play_again = input("Do you want to play again?\n1. Yes\n2. No\n")
-    if play_again == "1":
+    if play_again == "1" or play_again.lower() == "yes":
         who_is_that_pokemon()
-    elif play_again == "2":
+    elif play_again == "2" or play_again.lower() == "no":
         print("Thank you for playing Who's that Pokémon!\nReturning to the main menu.")
         sleep(1)
     else:
