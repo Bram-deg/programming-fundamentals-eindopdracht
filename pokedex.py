@@ -1,3 +1,4 @@
+import random
 from time import sleep
 
 import requests
@@ -10,7 +11,7 @@ def get_pokemon_name(pokemon_id):
         data = response.json()
         return data['name']
     else:
-        return f'Request failed with status code {response.status_code}'
+        print(f'Request failed with status code {response.status_code}')
 
 def get_pokedex_description(pokemon):
     """This function retrieves the Pokédex description for a given Pokémon."""
@@ -40,6 +41,8 @@ def pokedex():
     """This function runs the Pokédex program. in a loop,
     the user can input a Pokémon name or ID to retrieve the Pokédex description."""
     print("Welcome to the Pokédex!")
+    print("This program allows you to search for Pokémon and view their Pokédex descriptions.")
+    print("You can also type 'random' to return the Pokédex description of a random pokemon.")
     print("Type 'stop' to return to the main menu.")
     print("*" * 50)
 
@@ -53,17 +56,24 @@ def pokedex():
                 print("Returning to the main menu...")
                 sleep(1)
                 break
+
             # Check if the user input is a number (ID) or a string (name)
             if pokemon_input.isdigit():
                 pokemon_name = get_pokemon_name(pokemon_input)
             else:
                 pokemon_name = pokemon_input
 
-            # Retrieve the Pokédex description for the requested Pokémon
+            # Check if the user wants a random Pokémon
+            if pokemon_input == "random":
+                random_pokemon = requests.get('https://pokeapi.co/api/v2/pokemon-species/').json()['count']
+                pokemon_input = random.randint(1, int(random_pokemon))
+                pokemon_name = get_pokemon_name(pokemon_input)
+
             description = get_pokedex_description(pokemon_name)
             print(description)
             print("*" * 50)
+            print("Reminder: Type 'stop' to return to the main menu.")
 
         # Handle exceptions
         except Exception as e:
-            print(f"An error has occurred: {e}")
+            print(f"An error has occurred: Perhaps your input was invalid.")

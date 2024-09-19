@@ -69,7 +69,7 @@ def who_is_that_pokemon():
     if play_again == "1":
         who_is_that_pokemon()
     elif play_again == "2":
-        print("Thank you for playing who's that Pokémon!\nReturning to the main menu.")
+        print("Thank you for playing Who's that Pokémon!\nReturning to the main menu.")
         sleep(1)
     else:
         print("Invalid choice.\nReturning to the main menu.")
