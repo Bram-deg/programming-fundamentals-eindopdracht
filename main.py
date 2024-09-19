@@ -1,6 +1,7 @@
 from time import sleep
 
 from pokedex import pokedex
+from type_trainer import type_trainer
 from who_is_that_pokemon import who_is_that_pokemon
 
 def main():
@@ -19,7 +20,7 @@ def main():
         elif choice == "2":
             who_is_that_pokemon()
         elif choice == "3":
-            print("Type Trainer")
+            type_trainer()
         elif choice == "4":
             print("Thanks for playing!\nSee Ya!")
             break
