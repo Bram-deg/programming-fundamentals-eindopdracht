@@ -5,18 +5,21 @@ import random
 
 def get_all_types():
     """This function retrieves all Pokémon types from the PokéAPI."""
-    url = 'https://pokeapi.co/api/v2/type/'
-    response = requests.get(url)
+    try:
+        url = 'https://pokeapi.co/api/v2/type/'
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        data = response.json()
-        # exclude the unknown and stellar types these are obscure types that are no longer in the games
-        types = [t['name'] for t in data['results'] if t['name'] not in ['unknown', 'stellar']]
-        return types
+        if response.status_code == 200:
+            data = response.json()
+            # exclude the unknown and stellar types these are obscure types that are no longer in the games
+            types = [t['name'] for t in data['results'] if t['name'] not in ['unknown', 'stellar']]
+            return types
 
-    else:
-        print("Something went wrong while fetching the types.")
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
         return []
+
+
 
 
 def get_random_type(types):
@@ -26,24 +29,27 @@ def get_random_type(types):
 
 def get_type_effectiveness(defending_type):
     """This function retrieves the type effectiveness data for a given Pokémon type."""
-    url = f'https://pokeapi.co/api/v2/type/{defending_type}/'
-    response = requests.get(url)
+    try:
+        url = f'https://pokeapi.co/api/v2/type/{defending_type}/'
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        data = response.json()
-        damage_relations = data['damage_relations']
+        if response.status_code == 200:
+            data = response.json()
+            damage_relations = data['damage_relations']
 
-        # Lijsten van types waarop dit type effectief is of niet
-        double_damage_from = [d['name'] for d in damage_relations['double_damage_from']]
-        half_damage_from = [d['name'] for d in damage_relations['half_damage_from']]
-        no_damage_from = [d['name'] for d in damage_relations['no_damage_from']]
+            # Lijsten van types waarop dit type effectief is of niet
+            double_damage_from = [d['name'] for d in damage_relations['double_damage_from']]
+            half_damage_from = [d['name'] for d in damage_relations['half_damage_from']]
+            no_damage_from = [d['name'] for d in damage_relations['no_damage_from']]
 
-        return {
-            'double_damage_from': double_damage_from,
-            'half_damage_from': half_damage_from,
-            'no_damage_from': no_damage_from
-        }
-    else:
+            return {
+                'double_damage_from': double_damage_from,
+                'half_damage_from': half_damage_from,
+                'no_damage_from': no_damage_from
+            }
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
         return None
 
 
@@ -58,6 +64,8 @@ def type_trainer():
     types = get_all_types()
     if not types:
         print("There was an error fetching the types.")
+        print("Returning to the main menu...")
+        sleep(1)
         return
 
     while True:

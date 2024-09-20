@@ -8,16 +8,11 @@ import matplotlib.pyplot as plt
 
 def get_random_pokemon_sprite():
     """Fetches a random Pokémon sprite URL and name."""
-    # Get the total number of Pokémon
-    all_pokemon_response = requests.get('https://pokeapi.co/api/v2/pokemon-species/')
-    if all_pokemon_response.status_code == 200:
-        data = all_pokemon_response.json()
-        total_pokemon = data['count']
+    # Generate a random Pokémon ID between 1 and 1025 (the total number of Pokémon)
+    random_id = random.randint(1, 1025)
 
-        # Generate a random Pokémon ID between 1 and the total number of Pokémon
-        random_id = random.randint(1, total_pokemon)
-
-        # Fetch the sprite URL and name for the random Pokémon
+    # Fetch the sprite URL and name for the random Pokémon
+    try:
         url = f'https://pokeapi.co/api/v2/pokemon/{random_id}'
         sprite_response = requests.get(url)
         if sprite_response.status_code == 200:
@@ -25,8 +20,12 @@ def get_random_pokemon_sprite():
             sprite_url = data['sprites']['front_default']
             name = data['name']
             return sprite_url, name
-    # Return None if the request failed
-    return None, None
+        # Return None if the request failed
+        else:
+            return None, None
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+        raise
 
 def who_is_that_pokemon():
     """The main function for the 'Who's that Pokémon?' game."""
@@ -40,7 +39,13 @@ def who_is_that_pokemon():
 
     # Display the image and prompt the user for a guess
     while True:
-        sprite_url, pokemon_name = get_random_pokemon_sprite()
+        try:
+            sprite_url, pokemon_name = get_random_pokemon_sprite()
+        except requests.exceptions.RequestException:
+            print("Could not connect to PokéAPI. Returning to the main menu.")
+            sleep(1)
+            return
+
         if sprite_url:
             response = requests.get(sprite_url)
             img = Image.open(BytesIO(response.content))
@@ -63,7 +68,7 @@ def who_is_that_pokemon():
             print("Failed to retrieve a random Pokémon sprite.")
 
     # Display the final score
-    print (f"Your final score is {score}.")
+    print(f"Your final score is {score}.")
     # ask if the user wants to play again
     play_again = input("Do you want to play again?\n1. Yes\n2. No\n")
     if play_again == "1" or play_again.lower() == "yes":

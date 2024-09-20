@@ -65,8 +65,7 @@ def pokedex():
 
             # Check if the user wants a random Pokémon
             if pokemon_input == "random":
-                random_pokemon = requests.get('https://pokeapi.co/api/v2/pokemon-species/').json()['count']
-                pokemon_input = random.randint(1, int(random_pokemon))
+                pokemon_input = random.randint(1, 1025)
                 pokemon_name = get_pokemon_name(pokemon_input)
 
             description = get_pokedex_description(pokemon_name)
@@ -75,5 +74,11 @@ def pokedex():
             print("Reminder: Type 'stop' to return to the main menu.")
 
         # Handle exceptions
+        except requests.exceptions.RequestException:
+            print("Could not connect to PokéAPI. Returning to the main menu.")
+            sleep(1)
+            return
         except Exception as e:
-            print(f"An error has occurred: Perhaps your input was invalid.")
+            print(f"Error occurred: your input may be invalid.")
+            sleep(1)
+            return
