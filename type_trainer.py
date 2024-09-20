@@ -3,6 +3,9 @@ from time import sleep
 import requests
 import random
 
+from utils import print_divider
+
+
 def get_all_types():
     """This function retrieves all Pokémon types from the PokéAPI."""
     try:
@@ -69,7 +72,7 @@ def type_trainer():
         # Retrieve a random type
         defending_type = get_random_type(types)
         # Print the defending type
-        print("*" * 50)
+        print_divider()
         print(f"The defending type is: {defending_type.capitalize()}")
 
         # Ask the user for an attacking type

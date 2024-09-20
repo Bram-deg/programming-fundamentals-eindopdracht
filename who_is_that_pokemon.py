@@ -6,6 +6,9 @@ from PIL import Image
 from io import BytesIO
 import matplotlib.pyplot as plt
 
+from utils import print_divider
+
+
 def get_random_pokemon_sprite():
     """Fetches a random Pokémon sprite URL and name."""
     # Generate a random Pokémon ID between 1 and 1025 (the total number of Pokémon)
@@ -28,12 +31,13 @@ def get_random_pokemon_sprite():
         raise
 
 def who_is_that_pokemon():
-    """The main function for the 'Who's that Pokémon?' game."""
+    """The main function for the 'Who's that Pokémon?' game.
+    the user has to guess the name of a Pokémon by its sprite."""
     # Display the game instructions
     print("Welcome to who's that Pokémon!")
     print("Try to guess the Pokémon by its sprite.")
     print("If you enter the wrong name the game will end!.")
-    print("*" * 50)
+    print_divider()
     # Initialize the score
     score = 0
 
@@ -59,7 +63,7 @@ def who_is_that_pokemon():
                 print("Correct!")
                 score += 1
                 print(f"current score: {score}.")
-                print("*" * 50)
+                print_divider()
             # End the game if the guess is incorrect
             else:
                 print(f"Wrong! It's {pokemon_name.capitalize()}.")

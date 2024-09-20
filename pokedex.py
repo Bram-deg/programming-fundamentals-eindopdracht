@@ -3,6 +3,9 @@ from time import sleep
 
 import requests
 
+from utils import print_divider
+
+
 def convert_id_to_name(pokemon_id):
     """this function is used to convert the ID to a name when the user inputs an ID"""
     url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}'
@@ -31,7 +34,7 @@ def get_pokedex_description(pokemon):
             if entry['language']['name'] == 'en':
                 # Return the English PokéDex description and print a header
                 print(f"PokéDex description for {pokemon.capitalize()}")
-                print("*" * 50)
+                print_divider()
                 return entry['flavor_text']
     else:
         # Return an error message if the request failed
@@ -39,12 +42,12 @@ def get_pokedex_description(pokemon):
 
 def pokedex():
     """This function runs the Pokédex program. in a loop,
-    the user can input a Pokémon name or ID to retrieve the Pokédex description."""
+    the user can input a Pokémon name or ID to retrieve their Pokédex description."""
     print("Welcome to the Pokédex!")
     print("This program allows you to search for Pokémon and view their Pokédex descriptions.")
     print("You can also type 'random' to return the Pokédex description of a random pokemon.")
     print("Type 'stop' to return to the main menu.")
-    print("*" * 50)
+    print_divider()
 
     # Main loop to search for the Pokémon
     while True:
@@ -70,7 +73,7 @@ def pokedex():
 
             description = get_pokedex_description(pokemon_name)
             print(description)
-            print("*" * 50)
+            print_divider()
             print("Reminder: Type 'stop' to return to the main menu.")
 
         # Handle exceptions
