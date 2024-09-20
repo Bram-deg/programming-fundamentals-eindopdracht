@@ -19,9 +19,6 @@ def get_all_types():
         print(f"An error occurred: {e}")
         return []
 
-
-
-
 def get_random_type(types):
     """This function returns a random type from the list of all Pokémon types."""
     return random.choice(types)

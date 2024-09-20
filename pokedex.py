@@ -3,7 +3,7 @@ from time import sleep
 
 import requests
 
-def get_pokemon_name(pokemon_id):
+def convert_id_to_name(pokemon_id):
     """this function is used to convert the ID to a name when the user inputs an ID"""
     url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}'
     response = requests.get(url)
@@ -59,14 +59,14 @@ def pokedex():
 
             # Check if the user input is a number (ID) or a string (name)
             if pokemon_input.isdigit():
-                pokemon_name = get_pokemon_name(pokemon_input)
+                pokemon_name = convert_id_to_name(pokemon_input)
             else:
                 pokemon_name = pokemon_input
 
             # Check if the user wants a random Pokémon
             if pokemon_input == "random":
                 pokemon_input = random.randint(1, 1025)
-                pokemon_name = get_pokemon_name(pokemon_input)
+                pokemon_name = convert_id_to_name(pokemon_input)
 
             description = get_pokedex_description(pokemon_name)
             print(description)
@@ -78,7 +78,7 @@ def pokedex():
             print("Could not connect to PokéAPI. Returning to the main menu.")
             sleep(1)
             return
-        except Exception as e:
+        except Exception:
             print(f"Error occurred: your input may be invalid.")
             sleep(1)
             return
