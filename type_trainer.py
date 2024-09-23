@@ -14,7 +14,7 @@ def get_all_types():
 
         if response.status_code == 200:
             data = response.json()
-            # exclude the unknown and stellar types these are obscure types that are no longer in the games
+            # exclude the unknown and stellar types, these are obscure types that are no longer in the games
             types = [t['name'] for t in data['results'] if t['name'] not in ['unknown', 'stellar']]
             return types
 
@@ -37,11 +37,12 @@ def get_type_effectiveness(defending_type):
             data = response.json()
             damage_relations = data['damage_relations']
 
-            # Lijsten van types waarop dit type effectief is of niet
+            # Extract the types that are super effective, not very effective, and have no effect
             double_damage_from = [d['name'] for d in damage_relations['double_damage_from']]
             half_damage_from = [d['name'] for d in damage_relations['half_damage_from']]
             no_damage_from = [d['name'] for d in damage_relations['no_damage_from']]
 
+            # Return the lists of type-effectiveness relationships
             return {
                 'double_damage_from': double_damage_from,
                 'half_damage_from': half_damage_from,
@@ -69,7 +70,7 @@ def type_trainer():
         return
 
     while True:
-        # Retrieve a random type
+        # Retrieve a random type, this will be the defending type
         defending_type = get_random_type(types)
         # Print the defending type
         print_divider()
@@ -78,6 +79,13 @@ def type_trainer():
         # Ask the user for an attacking type
         user_type = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
 
+        # Check if the user wants to see the list of types
+        if user_type == 'help':
+            print("available types:")
+            print(", ".join(types))
+            # After showing the list of types, ask for the user's input again.
+            user_type = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
+
         # Check if the user wants to stop
         if user_type == 'stop':
             print("Thanks for playing!")
@@ -85,27 +93,23 @@ def type_trainer():
             sleep(1)
             break
 
-        # Check if the user wants to see the list of types
-        if user_type == 'help':
-            print("available types:")
-            print(", ".join(types))
-            continue
-
         # Retrieve the type effectiveness data from the API
         effectiveness_data = get_type_effectiveness(defending_type)
         if effectiveness_data is None:
             print(f"Something went wrong while fetching the type effectiveness data.")
             continue
 
-        # Check the effectiveness of the chosen type
+        # Check the effectiveness of the chosen type and provide feedback
         if user_type in effectiveness_data['double_damage_from']:
             print(f"Good job! {user_type.capitalize()} is super effective against {defending_type.capitalize()}.")
             sleep(1)
         elif user_type in effectiveness_data['half_damage_from']:
             print(f"Wrong! {user_type.capitalize()} is not very effective against {defending_type.capitalize()}.")
+            print(f"Types that are super effective against {defending_type.capitalize()} are: {', '.join(effectiveness_data['double_damage_from'])}.")
             sleep(1)
         elif user_type in effectiveness_data['no_damage_from']:
             print(f"Wrong! {user_type.capitalize()} does not affect {defending_type.capitalize()}.")
+            print(f"Types that are super effective against {defending_type} are: {', '.join(effectiveness_data['double_damage_from'])}.")
             sleep(1)
         elif user_type not in types:
             print(f"{user_type.capitalize()} is not a valid Pokémon type.")

@@ -20,10 +20,11 @@ def get_random_pokemon_sprite():
         sprite_response = requests.get(url)
         if sprite_response.status_code == 200:
             data = sprite_response.json()
+            # A Pokémon has multiple sprites, but we only need the front sprite
             sprite_url = data['sprites']['front_default']
             name = data['name']
             return sprite_url, name
-        # Return None if the request failed
+        # Return None if the request failed (for both the sprite and the name)
         else:
             return None, None
     except requests.exceptions.RequestException as e:
@@ -41,7 +42,7 @@ def who_is_that_pokemon():
     # Initialize the score
     score = 0
 
-    # Display the image and prompt the user for a guess
+    # Display the image and prompt the user for a guess if the request is successful
     while True:
         try:
             sprite_url, pokemon_name = get_random_pokemon_sprite()
@@ -52,8 +53,10 @@ def who_is_that_pokemon():
 
         if sprite_url:
             response = requests.get(sprite_url)
+            # Display the sprite image using matplotlib and pillow
             img = Image.open(BytesIO(response.content))
             plt.imshow(img)
+            # Hide the axis for a cleaner display
             plt.axis('off')
             plt.show()
             pokemon_guess = input("Who's that Pokémon? ")
@@ -71,15 +74,15 @@ def who_is_that_pokemon():
         else:
             print("Failed to retrieve a random Pokémon sprite.")
 
-    # Display the final score
+    # When the game ends display the final score.
     print(f"Your final score is {score}.")
     # ask if the user wants to play again
     play_again = input("Do you want to play again?\n1. Yes\n2. No\n")
     if play_again == "1" or play_again.lower() == "yes":
         who_is_that_pokemon()
     elif play_again == "2" or play_again.lower() == "no":
-        print("Thank you for playing Who's that Pokémon!\nReturning to the main menu.")
+        print("Thank you for playing Who's that Pokémon!\nReturning to the main menu...")
         sleep(1)
     else:
-        print("Invalid choice.\nReturning to the main menu.")
+        print("Invalid choice.\nReturning to the main menu...")
         sleep(1)

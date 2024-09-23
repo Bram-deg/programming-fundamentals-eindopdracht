@@ -7,6 +7,8 @@ from utils import print_main_menu
 
 
 def main():
+    """The main function for the Pokémon App.
+    The user can use this menu to choose between different Pokémon-related activities."""
     print("Welcome to the Pokémon App!")
     while True:
         print_main_menu()
@@ -24,6 +26,6 @@ def main():
             print("Invalid choice. Please try again.")
             sleep(1)
 
-
+# Run the main function
 if __name__ == '__main__':
     main()

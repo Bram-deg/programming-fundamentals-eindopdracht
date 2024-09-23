@@ -8,17 +8,20 @@ from utils import print_divider
 
 def convert_id_to_name(pokemon_id):
     """this function is used to convert the ID to a name when the user inputs an ID"""
+    # Retrieve the Pokémon with the given ID
     url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
+        # Return the Pokémon name
         return data['name']
     else:
+        # Return an error message if the request failed
         print(f'Request failed with status code {response.status_code}')
 
 def get_pokedex_description(pokemon):
     """This function retrieves the Pokédex description for a given Pokémon."""
-    # URL to retrieve the Pokémon species data
+    # URL to retrieve the Pokémon with the given name
     url = f'https://pokeapi.co/api/v2/pokemon-species/{pokemon}'
     response = requests.get(url)
     # Check if the Pokémon exists
@@ -53,13 +56,6 @@ def pokedex():
     while True:
         try:
             pokemon_input = str(input("Enter the name or id of the pokemon you are looking for: ").lower())
-            # Check if the user wants to stop the program
-            if pokemon_input == "stop":
-                print("Thank you for using the Pokédex!")
-                print("Returning to the main menu...")
-                sleep(1)
-                break
-
             # Check if the user input is a number (ID) or a string (name)
             if pokemon_input.isdigit():
                 pokemon_name = convert_id_to_name(pokemon_input)
@@ -75,6 +71,13 @@ def pokedex():
             print(description)
             print_divider()
             print("Reminder: Type 'stop' to return to the main menu.")
+
+            # Check if the user wants to stop the program
+            if pokemon_input == "stop":
+                print("Thank you for using the Pokédex!")
+                print("Returning to the main menu...")
+                sleep(1)
+                break
 
         # Handle exceptions
         except requests.exceptions.RequestException:
