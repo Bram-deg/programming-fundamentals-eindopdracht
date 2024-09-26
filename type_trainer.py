@@ -53,6 +53,9 @@ def get_type_effectiveness(defending_type):
         print(f"An error occurred: {e}")
         return None
 
+def show_feedback(defending_type, effectiveness_data):
+    print(f"Types that are super effective against {defending_type.capitalize()} are: {', '.join(effectiveness_data['double_damage_from'])}.")
+
 
 def type_trainer():
     """This function runs the Type Trainer game.
@@ -105,15 +108,16 @@ def type_trainer():
             sleep(1)
         elif user_type in effectiveness_data['half_damage_from']:
             print(f"Wrong! {user_type.capitalize()} is not very effective against {defending_type.capitalize()}.")
-            print(f"Types that are super effective against {defending_type.capitalize()} are: {', '.join(effectiveness_data['double_damage_from'])}.")
+            show_feedback(defending_type, effectiveness_data)
             sleep(1)
         elif user_type in effectiveness_data['no_damage_from']:
             print(f"Wrong! {user_type.capitalize()} does not affect {defending_type.capitalize()}.")
-            print(f"Types that are super effective against {defending_type} are: {', '.join(effectiveness_data['double_damage_from'])}.")
+            show_feedback(defending_type, effectiveness_data)
             sleep(1)
         elif user_type not in types:
             print(f"{user_type.capitalize()} is not a valid Pokémon type.")
             sleep(1)
         else:
             print(f"Not bad!, {user_type.capitalize()} does neutral damage against {defending_type.capitalize()}.")
+            show_feedback(defending_type, effectiveness_data)
             sleep(1)
