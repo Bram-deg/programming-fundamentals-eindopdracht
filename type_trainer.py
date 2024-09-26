@@ -80,17 +80,17 @@ def type_trainer():
         print(f"The defending type is: {defending_type.capitalize()}")
 
         # Ask the user for an attacking type
-        user_type = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
+        user_input = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
 
         # Check if the user wants to see the list of types
-        if user_type == 'help':
+        if user_input == 'help':
             print("available types:")
             print(", ".join(types))
             # After showing the list of types, ask for the user's input again.
-            user_type = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
+            user_input = input("What type will you use to attack? (type 'stop' to stop the game): ").lower()
 
         # Check if the user wants to stop
-        if user_type == 'stop':
+        if user_input == 'stop':
             print("Thanks for playing!")
             print("Returning to the main menu...")
             sleep(1)
@@ -103,21 +103,21 @@ def type_trainer():
             continue
 
         # Check the effectiveness of the chosen type and provide feedback
-        if user_type in effectiveness_data['double_damage_from']:
-            print(f"Good job! {user_type.capitalize()} is super effective against {defending_type.capitalize()}.")
+        if user_input in effectiveness_data['double_damage_from']:
+            print(f"Good job! {user_input.capitalize()} is super effective against {defending_type.capitalize()}.")
             sleep(1)
-        elif user_type in effectiveness_data['half_damage_from']:
-            print(f"Wrong! {user_type.capitalize()} is not very effective against {defending_type.capitalize()}.")
+        elif user_input in effectiveness_data['half_damage_from']:
+            print(f"Wrong! {user_input.capitalize()} is not very effective against {defending_type.capitalize()}.")
             show_feedback(defending_type, effectiveness_data)
             sleep(1)
-        elif user_type in effectiveness_data['no_damage_from']:
-            print(f"Wrong! {user_type.capitalize()} does not affect {defending_type.capitalize()}.")
+        elif user_input in effectiveness_data['no_damage_from']:
+            print(f"Wrong! {user_input.capitalize()} does not affect {defending_type.capitalize()}.")
             show_feedback(defending_type, effectiveness_data)
             sleep(1)
-        elif user_type not in types:
-            print(f"{user_type.capitalize()} is not a valid Pokémon type.")
+        elif user_input not in types:
+            print(f"{user_input.capitalize()} is not a valid Pokémon type.")
             sleep(1)
         else:
-            print(f"Not bad!, {user_type.capitalize()} does neutral damage against {defending_type.capitalize()}.")
+            print(f"Not bad!, {user_input.capitalize()} does neutral damage against {defending_type.capitalize()}.")
             show_feedback(defending_type, effectiveness_data)
             sleep(1)

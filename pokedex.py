@@ -55,17 +55,17 @@ def pokedex():
     # Main loop to search for the Pokémon
     while True:
         try:
-            pokemon_input = str(input("Enter the name or id of the pokemon you are looking for: ").lower())
+            user_input = str(input("Enter the name or id of the pokemon you are looking for: ").lower())
             # Check if the user input is a number (ID) or a string (name)
-            if pokemon_input.isdigit():
-                pokemon_name = convert_id_to_name(pokemon_input)
+            if user_input.isdigit():
+                pokemon_name = convert_id_to_name(user_input)
             else:
-                pokemon_name = pokemon_input
+                pokemon_name = user_input
 
             # Check if the user wants a random Pokémon
-            if pokemon_input == "random":
-                pokemon_input = random.randint(1, 1025)
-                pokemon_name = convert_id_to_name(pokemon_input)
+            if user_input == "random":
+                user_input = random.randint(1, 1025)
+                pokemon_name = convert_id_to_name(user_input)
 
             description = get_pokedex_description(pokemon_name)
             print(description)
@@ -73,7 +73,7 @@ def pokedex():
             print("Reminder: Type 'stop' to return to the main menu.")
 
             # Check if the user wants to stop the program
-            if pokemon_input == "stop":
+            if user_input == "stop":
                 print("Thank you for using the Pokédex!")
                 print("Returning to the main menu...")
                 sleep(1)

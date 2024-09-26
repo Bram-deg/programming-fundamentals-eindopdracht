@@ -77,10 +77,10 @@ def who_is_that_pokemon():
             # Hide the axis for a cleaner display
             plt.axis('off')
             plt.show()
-            pokemon_guess = input("Who's that Pokémon? ")
+            user_input = input("Who's that Pokémon? ")
 
             # Check if the guess is correct
-            if pokemon_guess.lower() == pokemon_name:
+            if user_input.lower() == pokemon_name:
                 print("Correct!")
                 score += 1
                 print(f"current score: {score}.")
