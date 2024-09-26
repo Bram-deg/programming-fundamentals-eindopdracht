@@ -32,11 +32,12 @@ def get_random_pokemon_sprite():
         raise
 
 def save_score(name, score):
+    """save the current score to the scoreboard.txt file"""
     with open("scoreboard.txt", "a") as file:
         file.write(f"{name}: {score}\n")
 
 def display_high_scores():
-    # Display the three highest scores from the scoreboard
+    """show the 3 highest scores in the scoreboard.txt file"""
     print("High scores:")
     print_divider()
     with open("scoreboard.txt", "r") as file:

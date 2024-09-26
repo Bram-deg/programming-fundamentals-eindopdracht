@@ -1,0 +1,5 @@
+Bram: 11
+Pietje: 0
+Henk: 0
+Jaap: 5
+Bram: 0

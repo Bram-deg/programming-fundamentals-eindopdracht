@@ -54,6 +54,7 @@ def get_type_effectiveness(defending_type):
         return None
 
 def show_feedback(defending_type, effectiveness_data):
+    """shows the user which types would have been more effective against the defender"""
     print(f"Types that are super effective against {defending_type.capitalize()} are: {', '.join(effectiveness_data['double_damage_from'])}.")
 
 
