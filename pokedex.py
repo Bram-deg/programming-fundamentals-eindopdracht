@@ -37,7 +37,6 @@ def get_pokedex_description(pokemon):
             if entry['language']['name'] == 'en':
                 # Return the English PokéDex description and print a header
                 print(f"PokéDex description for {pokemon.capitalize()}")
-                print_divider()
                 return entry['flavor_text']
     else:
         # Return an error message if the request failed
@@ -68,6 +67,7 @@ def pokedex():
                 pokemon_name = convert_id_to_name(user_input)
 
             description = get_pokedex_description(pokemon_name)
+            print_divider()
             print(description)
             print_divider()
             print("Reminder: Type 'stop' to return to the main menu.")
@@ -87,4 +87,4 @@ def pokedex():
         except Exception:
             print(f"Error occurred: your input may be invalid.")
             sleep(1)
-            return
+
