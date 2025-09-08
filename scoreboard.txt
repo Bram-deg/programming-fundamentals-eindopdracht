@@ -3,3 +3,6 @@ Pietje: 0
 Henk: 0
 Jaap: 5
 Bram: 0
+brampie: 2
+Brampieeee: 2
+brampie: 12
